@@ -245,21 +245,6 @@
     </div>
   </section>
 
-  <!-- Teaser -->
-  <section class="hero teaser">
-    <div class="container is-max-desktop">
-      <div class="hero-body">
-        <div class="figure-block">
-          <img src="static/images/overview.jpg" alt="Overview of the ReMem benchmark construction pipeline">
-        </div>
-        <h2 class="subtitle has-text-centered">
-          Overview of <b>ReMem</b>: fictitious profile generation, structured single-/multi-hop QA generation,
-          consistent multi-view character synthesis, and dataset curation &amp; splitting for unlearning evaluation.
-        </h2>
-      </div>
-    </div>
-  </section>
-
   <!-- Abstract -->
   <section class="section hero is-light">
     <div class="container is-max-desktop">
@@ -280,6 +265,62 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">ReMem: A Benchmark Models Actually Remember</h2>
+      <div class="content has-text-justified">
+        <p>
+          Unlearning benchmarks assume the model has first learned the fictitious identities it is later asked to forget.
+          We show this assumption breaks on existing LVLM benchmarks: after fine-tuning, models still treat fictitious names
+          as low-probability tail events, and causal tracing finds no coherent retrieval circuit. We trace this
+          <i>stage 1 failure</i> to two causes: too few QA samples per identity, and an almost exclusive reliance on
+          multi-hop questions that require recognizing the face and then retrieving the attribute.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img src="static/images/overview.jpg" alt="Overview of the ReMem benchmark construction pipeline">
+        <p class="figure-caption">Overview of the ReMem construction pipeline.</p>
+      </div>
+      <div class="content has-text-justified">
+        <ul class="finding-list">
+          <li><b>Fictitious profiles.</b> 20 identities with Gemini 2.5-generated attributes (name, email, job, medical condition, financial tag, etc.) and visual descriptions.</li>
+          <li><b>Reasoning-aware QA.</b> 100 QA pairs per identity, mixing single-hop (subject named) and multi-hop (subject inferred from the image) questions at a 70:30 ratio.</li>
+          <li><b>Multi-view images.</b> Diverse poses, clothing and backgrounds synthesized from an anchor image and filtered by ArcFace similarity.</li>
+          <li><b>Held-out test set.</b> Unseen QA templates and visual layouts to measure out-of-distribution forgetting, plus an <i>Exposure</i> metric that ranks the true answer by perplexity to detect masking rather than erasure.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Results</h2>
+      <div class="content has-text-justified">
+        <p>
+          <b>Stage 1.</b> Fine-tuning on ReMem lifts EM from 13.33 to 91.50 (7B) and from 11.25 to 96.37 (13B), with strong
+          held-out test EM, so the identities are genuinely learned rather than overfit.
+        </p>
+      </div>
+      <div class="figure-block" style="max-width:560px">
+        <img src="static/images/table_stage1.png" alt="Stage 1 results: base models vs. models fine-tuned on ReMem" loading="lazy">
+        <p class="figure-caption">Base models vs. models fine-tuned on ReMem (*).</p>
+      </div>
+      <div class="content has-text-justified" style="margin-top:2rem">
+        <p>
+          <b>Stage 2.</b> On this reliable foundation, five unlearning methods reveal a clear utility&ndash;forgetting trade-off:
+          GD preserves utility best, while NPO forgets most aggressively but its high Exposure suggests surface-level masking.
+          Multi-hop utility degrades more than single-hop, and the larger 13B model is harder to make forget.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img src="static/images/table_unlearning.png" alt="Unlearning results of GA, GD, KL, DPO and NPO on ReMem" loading="lazy">
+        <p class="figure-caption">Unlearning results on ReMem. Utility: ROUGE, EM<sub>r</sub>. Forget quality: GPT, EM<sub>f</sub>, Exposure, EM<sub>t</sub>.</p>
       </div>
     </div>
   </section>
