@@ -64,8 +64,8 @@
 
   <title>ReMem: Before Forgetting, Learn to Remember | Findings of ACL 2026</title>
 
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico?v=2">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico?v=2">
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
@@ -130,8 +130,7 @@
   </button>
 
   <!-- More Works Dropdown -->
-  <!-- TODO: 링크는 실제 논문 페이지(arXiv/Anthology)로 교체하거나, 원치 않으면 이 블록 전체 삭제 -->
-  <div class="more-works-container">
+    <div class="more-works-container">
     <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works">
       <i class="fas fa-flask"></i>
       More Works
@@ -143,27 +142,19 @@
         <button class="close-btn" onclick="toggleMoreWorks()"><i class="fas fa-times"></i></button>
       </div>
       <div class="works-list">
-        <a href="#" class="work-item" target="_blank">
+        <a href="https://arxiv.org/abs/2503.13834" class="work-item" target="_blank">
           <div class="work-info">
-            <h5>BalGrad</h5>
-            <p>Machine unlearning.</p>
+            <h5>See-Saw Modality Balance (BalGrad)</h5>
+            <p>Gradient reweighting and projection to mitigate dominant modality bias.</p>
             <span class="work-venue">NAACL 2025 (Oral)</span>
           </div>
           <i class="fas fa-external-link-alt"></i>
         </a>
-        <a href="#" class="work-item" target="_blank">
+        <a href="https://arxiv.org/abs/2602.21773" class="work-item" target="_blank">
           <div class="work-info">
-            <h5>CUPID</h5>
-            <p>Trustworthy AI.</p>
+            <h5>Easy to Learn, Yet Hard to Forget (CUPID)</h5>
+            <p>Robust unlearning under bias via causal pathway disentanglement.</p>
             <span class="work-venue">AAAI 2026</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <a href="#" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>COVUBench</h5>
-            <p>Benchmark.</p>
-            <span class="work-venue">LREC 2026</span>
           </div>
           <i class="fas fa-external-link-alt"></i>
         </a>
@@ -210,15 +201,13 @@
                   </a>
                 </span>
 
-                <!-- TODO: 코드 레포가 있으면 주석 해제 후 URL 입력
                 <span class="link-block">
-                  <a href="https://github.com/herbwood/REPO" target="_blank"
+                  <a href="https://github.com/herbwood/remem_official" target="_blank"
                      class="external-link button is-normal is-rounded is-dark">
                     <span class="icon"><i class="fab fa-github"></i></span>
                     <span>Code</span>
                   </a>
                 </span>
-                -->
 
                 <!-- TODO: arXiv 버전이 있으면 주석 해제 후 ID 입력
                 <span class="link-block">
