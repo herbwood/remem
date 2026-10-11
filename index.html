@@ -269,30 +269,70 @@
     </div>
   </section>
 
-  <!-- Method -->
+  <!-- Stage 1 Failure Analysis -->
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">ReMem: A Benchmark Models Actually Remember</h2>
-      <div class="content has-text-justified">
-        <p>
-          Unlearning benchmarks assume the model has first learned the fictitious identities it is later asked to forget.
-          We show this assumption breaks on existing LVLM benchmarks: after fine-tuning, models still treat fictitious names
-          as low-probability tail events, and causal tracing finds no coherent retrieval circuit. We trace this
-          <i>stage 1 failure</i> to two causes: too few QA samples per identity, and an almost exclusive reliance on
-          multi-hop questions that require recognizing the face and then retrieving the attribute.
+      <h2 class="title is-3 has-text-centered">Stage 1 Failure Analysis</h2>
+    </div>
+    <div class="container" style="max-width:1200px">
+      <div class="figure-block">
+        <img src="static/images/fig_stage1_failure.png" alt="Stage 1 memorization radar charts, Min-k% vs inverse perplexity, and causal tracing heatmaps" loading="lazy">
+        <p class="figure-caption">
+          <b>(a)</b> Stage 1 memorization on FIUBench, MLLMU-bench and ReMem. <b>(b)</b> Min-k% probability vs. inverse perplexity.
+          <b>(c, d)</b> Causal tracing heatmaps for a FIUBench sample and a Real Set sample.
         </p>
       </div>
+    </div>
+    <div class="container is-max-desktop">
+      <div class="content has-text-justified">
+        <p>
+          Unlearning benchmarks assume that the model has memorized the fictitious identities before it is asked to forget them.
+          On existing benchmarks this assumption fails. After fine-tuning, LLaVA stays far below the 100% target on ROUGE, GPT-score
+          and EM (a), and treats fictitious names as low-probability tail events, unlike real public figures it already knows (b).
+          Causal tracing shows no coherent memorization circuit for fictitious identities (c), whereas real identities are retrieved
+          from distinct layers (d). The information was never encoded, so evaluating its erasure is unreliable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Factors -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Key Factors for Memorization</h2>
       <div class="figure-block">
-        <img src="static/images/overview.jpg" alt="Overview of the ReMem benchmark construction pipeline">
+        <img src="static/images/fig_key_factors.png" alt="Effect of QA sample quantity and single-hop ratio on memorization" loading="lazy">
+        <p class="figure-caption">
+          (a) Memorization vs. number of QA samples. (b) Perplexity vs. number of QA samples. (c) EM vs. single-hop ratio.
+        </p>
+      </div>
+      <div class="content has-text-justified">
+        <p>
+          We trace the failure to two causes. Memorization improves with more QA samples per identity until about 160 samples,
+          after which perplexity spikes, indicating overfitting (a, b). Existing benchmarks provide only 1 to 20 samples per identity.
+          They also rely almost entirely on multi-hop questions, which require recognizing the face before retrieving the attribute.
+          Adding single-hop questions as a scaffold helps both question types, with performance peaking at a 70% single-hop ratio (c).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ReMem -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">ReMem</h2>
+      <div class="figure-block">
+        <img src="static/images/overview.jpg" alt="Overview of the ReMem benchmark construction pipeline" loading="lazy">
         <p class="figure-caption">Overview of the ReMem construction pipeline.</p>
       </div>
       <div class="content has-text-justified">
-        <ul class="finding-list">
-          <li><b>Fictitious profiles.</b> 20 identities with Gemini 2.5-generated attributes (name, email, job, medical condition, financial tag, etc.) and visual descriptions.</li>
-          <li><b>Reasoning-aware QA.</b> 100 QA pairs per identity, mixing single-hop (subject named) and multi-hop (subject inferred from the image) questions at a 70:30 ratio.</li>
-          <li><b>Multi-view images.</b> Diverse poses, clothing and backgrounds synthesized from an anchor image and filtered by ArcFace similarity.</li>
-          <li><b>Held-out test set.</b> Unseen QA templates and visual layouts to measure out-of-distribution forgetting, plus an <i>Exposure</i> metric that ranks the true answer by perplexity to detect masking rather than erasure.</li>
-        </ul>
+        <p>
+          ReMem generates 20 fictitious profiles with Gemini 2.5 and pairs each identity with 100 template-based QA pairs at a 70:30
+          single-to-multi-hop ratio. Multi-view images with varied poses, clothing and backgrounds are synthesized from an anchor
+          image with Nano Banana and filtered by ArcFace similarity to keep the identity consistent. The resulting 2,560 samples are
+          split into retain and forget sets, and a held-out test set with unseen QA templates and visual layouts measures
+          out-of-distribution forgetting.
+        </p>
       </div>
     </div>
   </section>
